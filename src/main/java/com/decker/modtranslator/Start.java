@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.decker.modtranslater;
+package com.decker.modtranslator;
 
-import com.decker.modtranslater.dict.Dictionary;
-import com.decker.modtranslater.dict.DictionaryBuilder;
-import com.decker.modtranslater.translate.Translator;
+import com.decker.modtranslator.dict.Dictionary;
+import com.decker.modtranslator.dict.DictionaryBuilder;
+import com.decker.modtranslator.translate.Translator;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;

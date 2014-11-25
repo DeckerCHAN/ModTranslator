@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.decker.modtranslater.translate;
+package com.decker.modtranslator.translate;
 
-import com.decker.modtranslater.LanguageProcessor;
-import com.decker.modtranslater.dict.Dictionary;
+import com.decker.modtranslator.LanguageProcessor;
+import com.decker.modtranslator.dict.Dictionary;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import org.apache.commons.lang3.StringUtils;

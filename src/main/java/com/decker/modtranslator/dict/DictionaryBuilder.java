@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.decker.modtranslater.dict;
+package com.decker.modtranslator.dict;
 
-import com.decker.modtranslater.Configuration;
-import com.decker.modtranslater.LanguageProcessor;
+import com.decker.modtranslator.Configuration;
+import com.decker.modtranslator.LanguageProcessor;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;

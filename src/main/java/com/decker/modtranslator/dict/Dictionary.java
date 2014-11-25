@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.decker.modtranslater.dict;
+package com.decker.modtranslator.dict;
 
-import com.decker.modtranslater.Configuration;
-import com.decker.modtranslater.Log;
+import com.decker.modtranslator.Configuration;
+import com.decker.modtranslator.Log;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.UnexpectedException;
