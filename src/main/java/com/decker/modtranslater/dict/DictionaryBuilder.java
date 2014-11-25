@@ -6,8 +6,10 @@
 package com.decker.modtranslater.dict;
 
 import com.decker.modtranslater.Configuration;
+import com.decker.modtranslater.LanguageProcessor;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
@@ -18,31 +20,21 @@ import sun.misc.Regexp;
  *
  * @author Decker
  */
-public class DictionaryBuilder {
-
-    private final String defalutContentMatcher;
-    private final String defalutLineSpliter;
-    private final String defaultKeyValueSpliter;
+public class DictionaryBuilder extends LanguageProcessor {
 
     public DictionaryBuilder() {
-        this.defalutContentMatcher = "(?<=languagefile \\{)([\\s\\S]*)*(?=\\})";
-        this.defalutLineSpliter = System.lineSeparator();
-        this.defaultKeyValueSpliter = "=";
+
     }
 
     public Dictionary buildDictionary(File sourceTransltionFile) throws Exception {
-        return this.buildDictionary(FileUtils.readFileToString(sourceTransltionFile));
+        return this.buildDictionary(FileUtils.readFileToString(sourceTransltionFile,"UTF-8"));
     }
 
     public Dictionary buildDictionary(String sourceTransltionString) throws Exception {
 
         Dictionary dictionary = new Dictionary();
 
-        Matcher matcher = Pattern.compile(this.getContentMatcher()).matcher(sourceTransltionString);
-        if (!matcher.find()) {
-            throw new Exception("Cant match any content");
-        }
-        String[] content = StringUtils.split(matcher.group(), this.getLineSpliter());
+        String[] content = StringUtils.split(this.digContent(sourceTransltionString), this.getLineSpliter());
 
         for (String line : content) {
             if (StringUtils.isEmpty(line)) {
@@ -57,40 +49,6 @@ public class DictionaryBuilder {
         }
 
         return dictionary;
-    }
-
-    /**
-     * @return the contentMatcher
-     */
-    public String getContentMatcher() {
-        if (StringUtils.isEmpty(Configuration.getConfig("CONTENT_MATCHER"))) {
-            return this.defalutContentMatcher;
-        } else {
-            return Configuration.getConfig("CONTENT_MATCHER");
-        }
-    }
-
-    /**
-     * @return the lineSpliter
-     */
-    public String getLineSpliter() {
-        if (StringUtils.isEmpty(Configuration.getConfig("LINE_SPITER"))) {
-            return defalutLineSpliter;
-        } else {
-            return Configuration.getConfig("LINE_SPITER");
-        }
-
-    }
-
-    /**
-     * @return the keyValueSpliter
-     */
-    public String getKeyValueSpliter() {
-        if (StringUtils.isEmpty(Configuration.getConfig("CONTENT_KV_SPITER"))) {
-            return defaultKeyValueSpliter;
-        } else {
-            return Configuration.getConfig("CONTENT_KV_SPITER");
-        }
     }
 
 }

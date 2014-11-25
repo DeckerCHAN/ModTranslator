@@ -24,21 +24,40 @@
 package com.decker.modtranslater.dict;
 
 import com.decker.modtranslater.Configuration;
+import com.decker.modtranslater.Log;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.UnexpectedException;
 import java.util.LinkedHashMap;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
  * @author Decker
  */
 public class Dictionary extends LinkedHashMap<String, String> {
+
+    public void loadFromFile(String dictFilepath) throws IOException {
+        this.loadFromFile(FileUtils.getFile(dictFilepath));
+    }
+    
+    public void loadFromFile(File dictFile) throws IOException {
+        String[] content = StringUtils.split(FileUtils.readFileToString(dictFile,"UTF-8"), Configuration.getConfig("LINE_SPITER"));
+        for (String line : content) {
+            String[] keyAndValue = StringUtils.split(line, "-->");
+            if (keyAndValue.length != 2) {
+                Log.error(String.format("Encountered a error when split key and value from line:%s", line));
+                continue;
+            }
+            this.put(keyAndValue[0], keyAndValue[1]);
+        }
+    }
     
     public void writeToFile(File targetFile) throws IOException {
         StringBuilder builder = new StringBuilder();
         for (String key : this.keySet()) {
-            builder.append(String.format("%s=>%s%s", key, this.get(key), Configuration.getConfig("LINE_SPITER")));
+            builder.append(String.format("%s-->%s%s", key, this.get(key), Configuration.getConfig("LINE_SPITER")));
         }
         FileUtils.writeStringToFile(targetFile, builder.toString());
     }

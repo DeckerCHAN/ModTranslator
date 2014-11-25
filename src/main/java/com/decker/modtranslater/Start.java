@@ -7,6 +7,7 @@ package com.decker.modtranslater;
 
 import com.decker.modtranslater.dict.Dictionary;
 import com.decker.modtranslater.dict.DictionaryBuilder;
+import com.decker.modtranslater.translate.Translator;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -32,6 +33,7 @@ public class Start {
         options.addOption(new Option("l", "spilt", true, "line spliter(defalult is system line spilte)"));
         options.addOption(new Option("k", "spliter", true, "the spliter for key and value"));
         options.addOption(new Option("f", "content", true, "a filter to specify language file content"));
+        options.addOption(new Option("d", "dictionaries", true, "specify your dictonaries for translation(using format {dict1,dict2})"));
 
         options.addOption(new Option("g", false, "dictionary generate mode"));
 
@@ -74,8 +76,26 @@ public class Start {
             dictionary.writeToFile(cli.getOptionValue('t'));
             Log.info(String.format("Wroted to file %s!", cli.getOptionValue('t')));
             return;
-        } else if (!cli.hasOption('g')) {
-            throw new UnsupportedOperationException("Waiting for implement");
+        } else if (!cli.hasOption('g') || cli.hasOption('d')) {
+
+            Translator translator = new Translator();
+            for (String dictFilePath : StringUtils.split(StringUtils.substring(cli.getOptionValue('d'), 1, -1), ',')) {
+                Dictionary dict = new Dictionary();
+                dict.loadFromFile(dictFilePath);
+                translator.loadDictionary(dict);
+            }
+            String translated = translator.translate(
+                    FileUtils.readFileToString(
+                            FileUtils.getFile(
+                                    cli.getOptionValue('s')
+                            ), "UTF-8"
+                    )
+            );
+            //Write result to target file 
+            FileUtils.writeStringToFile(
+                    FileUtils.getFile(cli.getOptionValue('t')),
+                    translated,"UTF-8"
+            );
         }
 
     }

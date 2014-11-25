@@ -26,6 +26,7 @@ package com.decker.modtranslater;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -34,8 +35,11 @@ import java.util.regex.Pattern;
 public class Test {
 
     public static void main(String[] args) {
-        //  Matcher matcher= Pattern.compile("abc.*def").matcher("abc 123 def");
-        System.out.println("abc 123 def".replaceAll("abc.*def", ""));
+
+        String testString = "{haha.dict}";
+        String removePrefix = StringUtils.substring(testString, 1, -1);
+        String[] splitString = StringUtils.split(removePrefix, ',');
+        System.out.println();
 
     }
 }
