@@ -36,10 +36,9 @@ public class Test {
 
     public static void main(String[] args) {
 
-        String testString = "{haha.dict}";
-        String removePrefix = StringUtils.substring(testString, 1, -1);
-        String[] splitString = StringUtils.split(removePrefix, ',');
-        System.out.println();
+        Matcher m=Pattern.compile("(?<=Small.{0,512})Ore").matcher("S:gt.blockores.17310.name=Small Cupronickel Ore");
+        m.find();
+        System.out.println(m.group());
 
     }
 }

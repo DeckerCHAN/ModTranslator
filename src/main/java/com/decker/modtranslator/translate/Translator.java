@@ -27,6 +27,8 @@ import com.decker.modtranslator.LanguageProcessor;
 import com.decker.modtranslator.dict.Dictionary;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -63,10 +65,19 @@ public class Translator extends LanguageProcessor {
                     String key = content[i].substring(0, content[i].indexOf(this.getKeyValueSpliter()));
                     String value = content[i].substring(content[i].indexOf(this.getKeyValueSpliter()) + 1, content[i].length());
                     //If that value already been put to the "translated" then replace the string in the translated
-                    if (translated.containsKey(key)) {
-                        value = translated.get(key).replaceAll(word, dictionary.get(word));
-                    } else {
+                    if (!translated.containsKey(key)) {
                         value = value.replaceAll(word, dictionary.get(word));
+                    } else {
+                        Matcher m=Pattern.compile(word).matcher(value);
+                        if(!m.find())
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                             value = translated.get(key).replaceAll(m.group(), dictionary.get(word));
+                        }
+                       
                     }
                     translated.put(key, value);
 

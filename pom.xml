@@ -58,7 +58,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.decker.modtranslater.Start</mainClass>
+                            <mainClass>com.decker.modtranslator.Start</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

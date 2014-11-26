@@ -41,19 +41,35 @@ public class Dictionary extends LinkedHashMap<String, String> {
     public void loadFromFile(String dictFilepath) throws IOException {
         this.loadFromFile(FileUtils.getFile(dictFilepath));
     }
-    
+
     public void loadFromFile(File dictFile) throws IOException {
-        String[] content = StringUtils.split(FileUtils.readFileToString(dictFile,"UTF-8"), Configuration.getConfig("LINE_SPITER"));
+        String[] content = StringUtils.split(FileUtils.readFileToString(dictFile, "UTF-8"), Configuration.getConfig("LINE_SPITER"));
         for (String line : content) {
-            String[] keyAndValue = StringUtils.split(line, "-->");
-            if (keyAndValue.length != 2) {
-                Log.error(String.format("Encountered a error when split key and value from line:%s", line));
+            if (line.charAt(0) == '#') {
                 continue;
             }
-            this.put(keyAndValue[0], keyAndValue[1]);
+            if (StringUtils.isEmpty(line)) {
+                Log.error(String.format("Encountered a error that line seems empty when split line:%s", line));
+                continue;
+            }
+            String[] keyAndValue = StringUtils.split(line, "-->");
+            if (keyAndValue.length > 2) {
+                Log.error(String.format("Encountered a error when split key and value from line:%s", line));
+                continue;
+            } else if (keyAndValue.length == 2) {
+                this.put(keyAndValue[0], keyAndValue[1]);
+            } else if (keyAndValue.length == 1) {
+                if (StringUtils.indexOf(line, "-->") == 1) {
+                    this.put(keyAndValue[0], "");
+                } else {
+                    Log.error(String.format("Encountered a error that seems key is empty when split line:%s", line));
+                    continue;
+                }
+            }
+
         }
     }
-    
+
     public void writeToFile(File targetFile) throws IOException {
         StringBuilder builder = new StringBuilder();
         for (String key : this.keySet()) {
@@ -61,7 +77,7 @@ public class Dictionary extends LinkedHashMap<String, String> {
         }
         FileUtils.writeStringToFile(targetFile, builder.toString());
     }
-    
+
     public void writeToFile(String path) throws IOException {
         this.writeToFile(FileUtils.getFile(path));
     }

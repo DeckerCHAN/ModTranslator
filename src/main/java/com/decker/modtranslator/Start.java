@@ -78,6 +78,9 @@ public class Start {
             return;
         } else if (!cli.hasOption('g') || cli.hasOption('d')) {
 
+            Log.info("Translation Task");
+            Log.info(String.format("Source file:%s  Target file:%s  Dictionaries:%s", cli.getOptionValue('s'), cli.getOptionValue('t'), cli.getOptionValue('d')));
+
             Translator translator = new Translator();
             for (String dictFilePath : StringUtils.split(StringUtils.substring(cli.getOptionValue('d'), 1, -1), ',')) {
                 Dictionary dict = new Dictionary();
@@ -91,11 +94,13 @@ public class Start {
                             ), "UTF-8"
                     )
             );
+            Log.info("Trasnlated! Writing to file...");
             //Write result to target file 
             FileUtils.writeStringToFile(
                     FileUtils.getFile(cli.getOptionValue('t')),
-                    translated,"UTF-8"
+                    translated, "UTF-8"
             );
+            Log.info("Done!");
         }
 
     }
