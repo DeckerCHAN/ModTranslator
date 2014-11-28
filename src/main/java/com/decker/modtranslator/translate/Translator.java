@@ -57,7 +57,7 @@ public class Translator extends LanguageProcessor {
     public String translate(String source) throws Exception {
 
         String sourceContent = this.digContent(source);
-        String[] content = StringUtils.split(sourceContent, this.getLineSpliter());
+        String[] content = StringUtils.splitByWholeSeparator(sourceContent, this.getLineSpliter());
         LinkedHashMap<String, String> translated = new LinkedHashMap<>();
         for (Dictionary dictionary : this.dictionaries) {
             for (String word : dictionary.keySet()) {

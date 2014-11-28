@@ -43,7 +43,7 @@ public class Dictionary extends LinkedHashMap<String, String> {
     }
 
     public void loadFromFile(File dictFile) throws IOException {
-        String[] content = StringUtils.split(FileUtils.readFileToString(dictFile, "UTF-8"), Configuration.getConfig("LINE_SPITER"));
+        String[] content = StringUtils.splitByWholeSeparator(FileUtils.readFileToString(dictFile, "UTF-8"), Configuration.getConfig("LINE_SPITER"));
         for (String line : content) {
             if (line.charAt(0) == '#') {
                 continue;
@@ -52,7 +52,7 @@ public class Dictionary extends LinkedHashMap<String, String> {
                 Log.error(String.format("Encountered a error that line seems empty when split line:%s", line));
                 continue;
             }
-            String[] keyAndValue = StringUtils.split(line, "-->");
+            String[] keyAndValue = StringUtils.splitByWholeSeparator(line, "-->");
             if (keyAndValue.length > 2) {
                 Log.error(String.format("Encountered a error when split key and value from line:%s", line));
                 continue;

@@ -34,7 +34,7 @@ public class DictionaryBuilder extends LanguageProcessor {
 
         Dictionary dictionary = new Dictionary();
 
-        String[] content = StringUtils.split(this.digContent(sourceTransltionString), this.getLineSpliter());
+        String[] content = StringUtils.splitByWholeSeparator(this.digContent(sourceTransltionString), this.getLineSpliter());
 
         for (String line : content) {
             if (StringUtils.isEmpty(line)) {
