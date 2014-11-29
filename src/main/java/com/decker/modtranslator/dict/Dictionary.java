@@ -45,11 +45,10 @@ public class Dictionary extends LinkedHashMap<String, String> {
     public void loadFromFile(File dictFile) throws IOException {
         String[] content = StringUtils.splitByWholeSeparator(FileUtils.readFileToString(dictFile, "UTF-8"), Configuration.getConfig("LINE_SPITER"));
         for (String line : content) {
-            if (line.charAt(0) == '#') {
+            if (StringUtils.isEmpty(line)) {
                 continue;
             }
-            if (StringUtils.isEmpty(line)) {
-                Log.error(String.format("Encountered a error that line seems empty when split line:%s", line));
+            if (line.charAt(0) == '#') {
                 continue;
             }
             String[] keyAndValue = StringUtils.splitByWholeSeparator(line, "-->");

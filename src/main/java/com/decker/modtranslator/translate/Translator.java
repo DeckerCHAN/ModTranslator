@@ -24,8 +24,10 @@
 package com.decker.modtranslator.translate;
 
 import com.decker.modtranslator.LanguageProcessor;
+import com.decker.modtranslator.Log;
 import com.decker.modtranslator.dict.Dictionary;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,26 +60,44 @@ public class Translator extends LanguageProcessor {
 
         String sourceContent = this.digContent(source);
         String[] content = StringUtils.splitByWholeSeparator(sourceContent, this.getLineSpliter());
+
+        LinkedHashMap<String, String> sourceHashMap = new LinkedHashMap<>();
+        for (String line : content) {
+            if (StringUtils.isEmpty(line)) {
+                continue;
+            }
+            try {
+                String key = line.substring(0, line.indexOf(this.getKeyValueSpliter()));
+                String value = line.substring(line.indexOf(this.getKeyValueSpliter()) + 1, line.length());
+                sourceHashMap.put(key, value);
+            } catch (Exception e) {
+                Log.error("Cant split source keys and values to hashmap", e);
+            }
+
+        }
+
+        ArrayList<Dictionary> reverseDictionaries = this.dictionaries;
+        Collections.reverse(reverseDictionaries);
+
         LinkedHashMap<String, String> translated = new LinkedHashMap<>();
-        for (Dictionary dictionary : this.dictionaries) {
-            for (String word : dictionary.keySet()) {
-                for (int i = 0; i < content.length; i++) {
-                    String key = content[i].substring(0, content[i].indexOf(this.getKeyValueSpliter()));
-                    String value = content[i].substring(content[i].indexOf(this.getKeyValueSpliter()) + 1, content[i].length());
+
+        for (Dictionary dictionary : reverseDictionaries) {
+            ArrayList<String> reverseKeySet = new ArrayList<String>(dictionary.keySet());
+            Collections.reverse(reverseKeySet);
+            for (String word : reverseKeySet) {
+                for (String key : sourceHashMap.keySet()) {
+                    String value = sourceHashMap.get(key);
                     //If that value already been put to the "translated" then replace the string in the translated
                     if (!translated.containsKey(key)) {
                         value = value.replaceAll(word, dictionary.get(word));
                     } else {
-                        Matcher m=Pattern.compile(word).matcher(value);
-                        if(!m.find())
-                        {
+                        Matcher m = Pattern.compile(word).matcher(value);
+                        if (!m.find()) {
                             continue;
+                        } else {
+                            value = translated.get(key).replaceAll(m.group(), dictionary.get(word));
                         }
-                        else
-                        {
-                             value = translated.get(key).replaceAll(m.group(), dictionary.get(word));
-                        }
-                       
+
                     }
                     translated.put(key, value);
 
