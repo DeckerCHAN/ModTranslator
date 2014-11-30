@@ -6,7 +6,7 @@ deploy:
   provider: releases
   api_key:
     secure: F4S7qZdVDNEZ+F3hhoCqe1CD7GJ5YZ87xHhK0naea4lEp/Yvsv+vBx/ZlNAHtVdyPCaVl7sam5UyOFUtAaRQPsYp9RKZoOl7GlehyYnPbiGusNhdon0IeGMf/6cPeFKFH0JfVcJqrDvu1NdAqNcTnwMDiD0JjDuZAi28opVPM6w=
-  file: target/*.jar
+  file: /home/travis/build/DeckerCHAN/ModTranslator/target/*.*
   skip_cleanup: true
   on:
     all_branches: true
