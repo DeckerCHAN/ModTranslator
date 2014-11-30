@@ -46,6 +46,10 @@ public class Translator extends LanguageProcessor {
         this.dictionaries = new ArrayList<>();
     }
 
+    /**
+     * Add dictionary to translator index
+     * @param dict the dictionary which you want to use during translate
+     */
     public void loadDictionary(Dictionary dict) {
         this.dictionaries.add(dict);
     }
