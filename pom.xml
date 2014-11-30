@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.decker</groupId>
     <artifactId>ModTranslator</artifactId>
-    <version>1.02.05</version>
+    <version>1.02.06</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -61,6 +61,7 @@
                             <mainClass>com.decker.modtranslator.Start</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>ModTranslator</finalName>      
                 </configuration>
             </plugin>
             <plugin>
